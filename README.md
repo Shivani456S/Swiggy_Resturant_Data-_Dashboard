@@ -1,1 +1,1 @@
-# Swiggy_Resturant_Data_Dashboard
+# Swiggy_Restaurants_Data_Dashboard
