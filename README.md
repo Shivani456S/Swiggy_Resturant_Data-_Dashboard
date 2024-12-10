@@ -87,4 +87,12 @@ d) Histogram showing the frequency of average ratings.
 e) Average price comparison for different cuisines.
 f) Outlier analysis for delivery times.
 
+#Future Enhancements
+Add support for additional filters like Food Type or Delivery Time.
+Enable download of filtered data and visualizations.
+Integrate with a database for real-time data updates
+
+#Contributing
+Feel free to contribute by raising issues or submitting pull requests to enhance this project. Let's make data analysis even more insightful and interactive!
+
 #THANK YOU !
