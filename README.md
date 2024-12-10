@@ -67,7 +67,7 @@ h) Command to install these libraries : pip install streamlit pandas matplotlib 
 a) Save the project code into a Python file, e.g., restaurant_dashboard.py.
 b) Open your terminal or command prompt and navigate to the directory where the file is saved.
 c) Command to run the python file streamlit run restaurant_dashboard.py
-d) he app will open automatically in your default web browser. If not, copy the URL shown in the terminal and paste it into your browser (e.g., http://localhost:8501).
+d) he app will open automatically in your default web browser. If not, copy the URL shown in the terminal and paste it into your browser (e.g., http://localhost:8501). if you click in this link you have to upload the CSV file of the swiggy resturants data https://github.com/Shivani456S/Swiggy_Resturant_Data-_Dashboard/blob/main/swiggy%20(1).csv
 
 #3. Uploading a Dataset
 a) Prepare a CSV file with the required columns (City, Price, Avg ratings, Food Type, Delivery Time).
