@@ -3,132 +3,135 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+from PIL import Image
+import base64
 
 # Load the dataset
-st.title('Restaurant Data Analysis Dashboard')
+df = pd.read_csv("swiggy (1).csv")
 
-# Upload file option
-uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
-if uploaded_file is not None:
-    df = pd.read_csv(r"C:\Users\chaud\OneDrive\Desktop\swiggydatatvisualization\swiggy (1).csv")
+# Header Section with Swiggy Logo
+logo_path = "Image.jpeg"  # Replace with the correct path to your uploaded logo file
+logo = Image.open(logo_path)
 
-    # Display the dataset
-    st.subheader("Dataset Overview")
-    st.write(df.head())
+# Convert the logo to a base64 string
+def get_base64(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode()
 
-    # Sidebar Filters
-    st.sidebar.header('Filters')
-    
-    # City Filter
-    cities = df['City'].unique()
-    selected_city = st.sidebar.selectbox('Select a City:', cities)
-    
-    # Price Range Filter
-    price_min, price_max = float(df['Price'].min()), float(df['Price'].max())
-    selected_price_range = st.sidebar.slider('Select Price Range:', price_min, price_max, (price_min, price_max))
-    
-    # Rating Range Filter
-    rating_min, rating_max = float(df['Avg ratings'].min()), float(df['Avg ratings'].max())
-    selected_rating_range = st.sidebar.slider('Select Rating Range:', rating_min, rating_max, (rating_min, rating_max))
-    
-    # Filter the data
-    filtered_data = df[(df['City'] == selected_city) & 
-                       (df['Price'] >= selected_price_range[0]) & (df['Price'] <= selected_price_range[1]) &
-                       (df['Avg ratings'] >= selected_rating_range[0]) & (df['Avg ratings'] <= selected_rating_range[1])]
+logo_base64 = get_base64(logo_path)
 
-    # Display filtered data
-    st.subheader(f"Filtered Data for {selected_city}")
-    st.write(filtered_data)
+st.markdown(
+    f"""
+    <div style='display: flex; align-items: center; margin-bottom: 80px;'>
+        <img src='data:image/jpeg;base64,{logo_base64}' alt='Swiggy Logo' style='height: 120px; margin-right: 20px;'>
+        <div>
+            <h3 style='color: #1E90FF; font-size: 42px; font-weight: bold; font-family: Arial, sans-serif; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);'>
+                <em>Swiggy Restaurant Dashboard</em>
+            </h3>
+            <p style='color: #555; font-size: 18px; font-style: italic; font-family: "Georgia", serif;'>
+                Dive into restaurant trends, ratings, delivery times, and cuisine popularity. Make data-driven decisions with this comprehensive dashboard.
+            </p>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-    # 1. Grouped Analysis: Average Price and Rating by City
-    st.subheader("Average Price and Rating by City")
-    grouped_data = filtered_data.groupby('City')[['Price', 'Avg ratings']].mean().reset_index()
+# Sidebar Filters
+st.sidebar.header('🔍 Filter Options')
 
-    # Plot grouped data
-    if not grouped_data.empty:
-        fig, ax = plt.subplots(figsize=(12, 6))
-        bar_width = 0.35
-        index = np.arange(len(grouped_data))
+# City Filter
+cities = df['City'].unique()
+selected_city = st.sidebar.selectbox('🌆 Select a City:', cities)
 
-        ax.bar(index, grouped_data['Price'], bar_width, label='Average Price', color='yellow')
-        ax.bar(index + bar_width, grouped_data['Avg ratings'], bar_width, label='Average Rating', color='green')
+# Price Range Filter
+price_min, price_max = float(df['Price'].min()), float(df['Price'].max())
+selected_price_range = st.sidebar.slider('💸 Select Price Range:', price_min, price_max, (price_min, price_max))
 
-        ax.set_xlabel('City')
-        ax.set_ylabel('Value')
-        ax.set_title('Average Price and Rating for Each City (Filtered)')
-        ax.set_xticks(index + bar_width / 2)
-        ax.set_xticklabels(grouped_data['City'], rotation=45, ha='right')
-        ax.legend()
+# Rating Filter
+rating_min, rating_max = float(df['Avg ratings'].min()), float(df['Avg ratings'].max())
+selected_rating_range = st.sidebar.slider('⭐ Select Rating Range:', rating_min, rating_max, (rating_min, rating_max))
 
-        st.pyplot(fig)
-    else:
-        st.write("No data available for the selected filters.")
+# Filter the data
+filtered_data = df[(df['City'] == selected_city) & 
+                   (df['Price'] >= selected_price_range[0]) & (df['Price'] <= selected_price_range[1]) &
+                   (df['Avg ratings'] >= selected_rating_range[0]) & (df['Avg ratings'] <= selected_rating_range[1])]
 
-    # 2. Price and Ratings Box Plot
-    st.subheader("Price and Ratings Box Plot by Rating Categories")
+# Display filtered data
+st.subheader(f"Filtered Data for {selected_city}")
+st.write(filtered_data)
 
-    # Categorize ratings
-    def rating_category(avg_rating):
-        if avg_rating < 3:
-            return 'Below 3'
-        elif 3 <= avg_rating <= 4:
-            return '3 - 4'
-        else:
-            return 'Above 4'
+# 1. Price Distribution and Average Ratings by Area
+st.markdown("<h2 style='color: #FF6347;'>📊 Price Distribution and Average Ratings by Area</h2>", unsafe_allow_html=True)
+st.markdown("Price Distribution shows the spread of prices for restaurants in the selected city, helping identify affordability trends.")
+st.markdown("Average Ratings by Area highlights the top-rated areas based on customer reviews.")
+col1, col2 = st.columns(2)
 
-    filtered_data['Rating Category'] = filtered_data['Avg ratings'].apply(rating_category)
-
-    # Box plot
-    if not filtered_data.empty:
-        plt.figure(figsize=(10, 6))
-        sns.boxplot(x='Rating Category', y='Price', data=filtered_data, palette='Set2')
-        plt.title('Price Distribution by Rating Categories (Filtered)', fontsize=14)
-        plt.xlabel('Rating Category', fontsize=12)
-        plt.ylabel('Price', fontsize=12)
-        st.pyplot(plt)
-    else:
-        st.write("No data available for the selected filters.")
-
-    # 3. Rating Distribution Histogram
-    st.subheader("Rating Distribution Histogram")
-
-    if not filtered_data.empty:
-        plt.figure(figsize=(10, 6))
-        plt.hist(filtered_data['Avg ratings'], bins=10, color='yellow', edgecolor='green')
-        plt.title('Rating Distribution (Filtered)', fontsize=14)
-        plt.xlabel('Ratings', fontsize=12)
+if not filtered_data.empty:
+    with col1:
+        st.markdown("### Price Distribution")
+        fig1 = plt.figure(figsize=(8, 5))
+        sns.histplot(filtered_data['Price'], bins=20, kde=True, color='blue')
+        plt.title('Price Distribution', fontsize=16)
+        plt.xlabel('Price', fontsize=12)
         plt.ylabel('Frequency', fontsize=12)
-        st.pyplot(plt)
-    else:
-        st.write("No data available for the selected filters.")
+        st.pyplot(fig1)
 
-    # 4. Average Price by Food Type
-    st.subheader("Average Price by Food Type")
-
-    if not filtered_data.empty:
-        food_price = filtered_data.groupby('Food type')['Price'].mean().reset_index()
-
-        plt.figure(figsize=(18, 11))
-        sns.barplot(x='Food type', y='Price', data=food_price, palette='viridis')
-        plt.title('Average Price for Each Food Type (Filtered)', fontsize=14)
-        plt.xlabel('Food Type', fontsize=12)
-        plt.ylabel('Average Price', fontsize=12)
-        plt.xticks(rotation=45, ha='right')
-        st.pyplot(plt)
-    else:
-        st.write("No data available for the selected filters.")
-
-    # 5. Delivery Time Outliers
-    st.subheader("Delivery Time Outliers")
-
-    if not filtered_data.empty:
-        plt.figure(figsize=(10, 6))
-        sns.boxplot(x=filtered_data['Delivery time'], color='lightcoral', fliersize=7, linewidth=1.5)
-        plt.title('Delivery Time Distribution with Outliers (Filtered)', fontsize=14)
-        plt.xlabel('Delivery Time (minutes)', fontsize=12)
-        st.pyplot(plt)
-    else:
-        st.write("No data available for the selected filters.")
-
+    with col2:
+        st.markdown("### Average Ratings by Area")
+        avg_ratings_area = filtered_data.groupby('Area')['Avg ratings'].mean().reset_index()
+        fig2 = plt.figure(figsize=(10, 6))
+        sns.barplot(x='Avg ratings', y='Area', data=avg_ratings_area, palette='viridis')
+        plt.title('Average Ratings by Area', fontsize=16)
+        plt.xlabel('Average Ratings', fontsize=12)
+        plt.ylabel('Area', fontsize=12)
+        st.pyplot(fig2)
 else:
-    st.write("Please upload a dataset to proceed.")
+    st.write("No data available for the selected filters.")
+
+# 2. Delivery Time Distribution and Popular Food Types
+st.markdown("<h2 style='color: #FFD700;'>⏱️ Delivery Time Distribution and Popular Food Types</h2>", unsafe_allow_html=True)
+st.markdown("Delivery Time Distribution gives insights into the time taken for food deliveries, aiding in understanding customer expectations.")
+st.markdown("Popular Food Types identifies the most sought-after cuisines or dishes in the selected city.")
+col3, col4 = st.columns(2)
+
+if not filtered_data.empty:
+    with col3:
+        st.markdown("### Delivery Time Distribution")
+        fig3 = plt.figure(figsize=(8, 5))
+        sns.boxplot(x=filtered_data['Delivery time'], color='orange')
+        plt.title('Delivery Time Distribution', fontsize=16)
+        plt.xlabel('Delivery Time (minutes)', fontsize=12)
+        st.pyplot(fig3)
+
+    with col4:
+        st.markdown("### Popular Food Types")
+        food_counts = filtered_data['Food type'].value_counts().head(10)
+        fig4 = plt.figure(figsize=(10, 6))
+        food_counts.plot(kind='bar', color='green')
+        plt.title('Top 10 Popular Food Types', fontsize=16)
+        plt.xlabel('Food Type', fontsize=12)
+        plt.ylabel('Count', fontsize=12)
+        st.pyplot(fig4)
+else:
+    st.write("No data available for the selected filters.")
+
+# 3. Restaurant Ratings
+st.markdown("<h2 style='color: #32CD32;'>🏅 Top 10 Restaurants by Ratings</h2>", unsafe_allow_html=True)
+st.markdown("This section highlights the top 10 restaurants in the selected city based on customer ratings.")
+if not filtered_data.empty:
+    top_rated = filtered_data[['Restaurant', 'Avg ratings']].sort_values(by='Avg ratings', ascending=False).head(10)
+    
+    # Pie chart for top 10 restaurants by ratings
+    st.markdown("### 🍰 Top 10 Restaurants by Ratings (Pie Chart)")
+    fig5 = plt.figure(figsize=(8, 8))
+    plt.pie(top_rated['Avg ratings'], labels=top_rated['Restaurant'], autopct='%1.1f%%', startangle=90, colors=sns.color_palette('Set3', len(top_rated)))
+    plt.title('Top 10 Restaurants by Ratings', fontsize=16)
+    st.pyplot(fig5)
+else:
+    st.write("No data available for the selected filters.")
+
+
+    
+
+    
