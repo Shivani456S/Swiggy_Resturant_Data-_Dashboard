@@ -6,6 +6,19 @@ This repository contains the source code for the **Swiggy Restaurant Analysis Da
 
 You can access the live dashboard [here](https://swiggyresturantdata-dashboard-l6udsz4am2z52jsybmcaju.streamlit.app/).
 
+## Repository Structure
+
+-swiggy-restaurant-analysis/
+-├── data/
+-│   └── swiggy.csv
+-├── analysis/
+-│   └── swiggy_analysis.py
+-├── requirements.txt
+-└── README.md
+
+
+
+
 ## Tools and Libraries Used
 
 1. **Streamlit**: 
@@ -74,7 +87,10 @@ The dashboard was developed using the following steps:
 
 ## How to Run the Dashboard Locally
 
-1. Clone the repository to your local machine:
-   ```bash
-   git clone https://github.com/your-username/swiggy-restaurant-analysis.git
+**Run the Streamlit app
+-streamlit run main.py
+-The dashboard will be accessible in your browser at http://localhost:8501.
 
+## Once visit my dashboard
+**https://swiggyresturantdata-dashboard-l6udsz4am2z52jsybmcaju.streamlit.app/
+Thank You :)
