@@ -1,98 +1,80 @@
 ## Swiggy_Restaurants_Data_Dashboard
 
-#Overview
+# Swiggy Restaurant Analysis Dashboard
 
-This project is a Streamlit-based interactive dashboard designed for analyzing restaurant data. The dashboard allows users to upload a dataset, apply filters, and explore various insights through dynamically updated visualizations. The app is particularly useful for exploring metrics such as restaurant prices, ratings, delivery times, and their relationships across different cities and food types.
+This repository contains the source code for the **Swiggy Restaurant Analysis Dashboard**. The dashboard provides insights into various restaurant data including ratings, price distribution, food type popularity, and more. It was built using **Streamlit**, **Pandas**, **Seaborn**, and **Matplotlib** to present interactive visualizations in a user-friendly format.
 
-#Features
+You can access the live dashboard [here](https://swiggyresturantdata-dashboard-l6udsz4am2z52jsybmcaju.streamlit.app/).
 
-1. Upload Dataset
-a) Users can upload a CSV file containing restaurant data. The app processes the uploaded file and displays the first few rows for an initial overview.
-b) Expected Columns in the dataset:
-c) City: Name of the city where the restaurant is located.
-d) Price: Price of the restaurant's offerings.
-e) Avg ratings: Average customer ratings.
-f) Food Type: Type of cuisine served by the restaurant.
-g) Delivery Time: Average delivery time in minutes.
+## Tools and Libraries Used
 
-2. Sidebar Filters
-a) City Filter: Select a specific city to analyze restaurants in that location.
-b) Price Range Filter: Filter restaurants based on their price range.
-c) Rating Range Filter: Filter restaurants based on average ratings.
-d) These filters dynamically affect all visualizations, allowing for focused analysis.
+1. **Streamlit**: 
+   - Streamlit is a powerful Python library that allows the creation of interactive web applications with ease. It's the core library used to create the dashboard.
+   - It allows us to display data frames, create visualizations, and build interactive elements such as filters, sliders, and charts in a few lines of code.
 
-#3. Visualizations
+2. **Pandas**: 
+   - Pandas is a Python library used for data manipulation and analysis. It was used to load, clean, and process the dataset.
 
-A. Grouped Analysis: Average Price and Ratings by City
-a) Calculates the average price and ratings for restaurants in each city.
-b) Displays a grouped bar chart comparing these metrics for filtered data.
+3. **Matplotlib** and **Seaborn**:
+   - Matplotlib is a plotting library, and Seaborn is built on top of it. Both were used to create various plots, such as histograms, bar charts, and pie charts, to visualize the restaurant data in a meaningful way.
+   - Visualizations include **Price Distribution**, **Average Ratings by Area**, **Top 10 Restaurants by Ratings**, and more.
 
-B. Price and Ratings Box Plot by Rating Categories
-a) Categorizes ratings into three groups:
-b) Below 3
-c) 3 - 4
-d) Above 4
-e) Displays a box plot comparing price distributions across these categories.
+4. **Pillow**: 
+   - Pillow is a Python Imaging Library used to process and display images. It was used to display the Swiggy logo on the dashboard.
 
-C. Rating Distribution Histogram
-a) Shows the distribution of average ratings across restaurants.
-b) A histogram is used to visualize the frequency of ratings for filtered data.
+5. **Base64**: 
+   - Base64 encoding was used to embed the Swiggy logo directly into the dashboard as a base64 string, ensuring it can be viewed without needing an external image file.
 
-D. Average Price by Food Type
-a) Calculates the average price for each food type.
-b) Displays a bar chart of average prices for different cuisines, with the ability to dynamically filter based on city and other criteria.
+6. **NumPy**:
+   - NumPy was used for numerical operations such as generating the price ranges for filtering data.
 
-E. Delivery Time Outliers
-a) Identifies potential outliers in delivery times using a box plot.
-b) This can highlight restaurants with unusually long or short delivery times.
+## Key Insights from the Dashboard
 
-#4. Dynamic Filtering
-a) All visualizations are dynamically linked to the sidebar filters. For example:
-b) Selecting a city automatically updates all charts and tables to show data specific to that city.
-c) Changing the price or rating range instantly refreshes the visualizations.
+### 1. **Cities and Restaurants Distribution**:
+- The dataset contains information on restaurants spread across different cities. The **City** column was used to analyze the distribution of restaurants in each city.
+- A bar chart was generated to display the number of restaurants in each city.
 
-#How to Use
-1. Prerequisites
-Ensure you have the following installed:
-a) Python 3.7 or higher
-b) Required Python libraries:
-c) streamlit
-d) pandas
-e) matplotlib
-f) seaborn
-g) numpy
-h) Command to install these libraries : pip install streamlit pandas matplotlib seaborn numpy
+### 2. **Average Rating Trends**:
+- The **Avg ratings** column provides the average ratings for each restaurant. This data was categorized into four segments: Poor, Average, Good, and Excellent.
+- A pie chart was used to visualize the distribution of ratings among the restaurants.
 
-#2. Running the App
-a) Save the project code into a Python file, e.g., restaurant_dashboard.py.
-b) Open your terminal or command prompt and navigate to the directory where the file is saved.
-c) Command to run the python file streamlit run restaurant_dashboard.py
-d) he app will open automatically in your default web browser. If not, copy the URL shown in the terminal and paste it into your browser (e.g., http://localhost:8501). if you click in this link you have to upload the CSV file of the swiggy resturants data https://github.com/Shivani456S/Swiggy_Resturant_Data-_Dashboard/blob/main/swiggy%20(1).csv.yaha se dataset copy kijiye aur data upload kre mera dashboard dekhne kr liye .....
+### 3. **Price Analysis**:
+- The **Price** column provides the price range of food at restaurants. A histogram was created to display the distribution of restaurant prices, helping identify common price ranges.
+  
+### 4. **Delivery Time Insights**:
+- The **Delivery time** column was analyzed to reveal trends in delivery times across different restaurants.
+- A boxplot was used to show the distribution of delivery times, helping identify potential bottlenecks in delivery.
 
-#3. Uploading a Dataset
-a) Prepare a CSV file with the required columns (City, Price, Avg ratings, Food Type, Delivery Time).
-b) Use the "Upload your CSV file" option to load the dataset into the app.
+### 5. **Food Types Popularity**:
+- The **Food type** column was used to analyze the most popular food types across restaurants.
+- A bar chart displayed the top 10 most common food types.
 
-#4. Using Filters
-Use the sidebar to select:
-a) City: Focus on restaurants from a specific city.
-b) Price Range: Adjust the price range for analysis.
-c) Rating Range: Adjust the rating range for analysis.
+### 6. **Top 10 Restaurants by Ratings**:
+- The **Avg ratings** column was used to find the top 10 restaurants based on customer ratings.
+- A pie chart was created to show the ratings of these top 10 restaurants.
 
-#5. Exploring Visualizations
-a) Analyze restaurant data dynamically through charts and insights:
-b) Grouped metrics for average price and ratings by city.
-c) Distribution of restaurant prices across different rating categories.
-d) Histogram showing the frequency of average ratings.
-e) Average price comparison for different cuisines.
-f) Outlier analysis for delivery times.
+## How the Dashboard Was Built
 
-#Future Enhancements
-Add support for additional filters like Food Type or Delivery Time.
-Enable download of filtered data and visualizations.
-Integrate with a database for real-time data updates
+The dashboard was developed using the following steps:
 
-#Contributing
-Feel free to contribute by raising issues or submitting pull requests to enhance this project. Let's make data analysis even more insightful and interactive!
+1. **Data Collection**:
+   - The restaurant data was collected into a CSV file (`swiggy.csv`) containing columns such as Restaurant name, City, Area, Price, Avg ratings, Delivery time, and Food type.
 
-#THANK YOU !
+2. **Data Cleaning**:
+   - Using **Pandas**, the dataset was cleaned by handling missing values, filtering data based on user inputs, and aggregating values (e.g., calculating average ratings per area).
+
+3. **Visualization**:
+   - Various visualizations were created using **Seaborn** and **Matplotlib** to provide clear insights into the dataset. This included histograms, bar charts, pie charts, and box plots.
+
+4. **Interactivity**:
+   - Streamlit's interactive widgets (e.g., `selectbox`, `slider`) were used to filter data based on user inputs like city, price range, and rating range.
+
+5. **Deployment**:
+   - Once the application was developed locally, it was deployed on **Streamlit Cloud** to make it accessible online. You can access the live version of the dashboard [here](https://swiggyresturantdata-dashboard-l6udsz4am2z52jsybmcaju.streamlit.app/).
+
+## How to Run the Dashboard Locally
+
+1. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/your-username/swiggy-restaurant-analysis.git
+
